@@ -615,6 +615,7 @@ class StatsController < ApplicationController
   end
 
   def init
+    raise "Disabled init filter"
     @me = self # for meta programming
 
     # default chart dimensions
