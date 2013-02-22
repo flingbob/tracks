@@ -6,6 +6,10 @@ class StatsController < ApplicationController
   append_before_filter :init, :except => :index
 
   def index
+    stats = Stats.new(current_user)
+    stats.compute
+
+
     @me = self # for meta programming
 
     # default chart dimensions
@@ -32,7 +36,7 @@ class StatsController < ApplicationController
                                                      "WHERE tags.id = taggings.tag_id " +
                                                      "AND taggings.taggable_id = todos.id " +
                                                      "AND todos.user_id = #{current_user.id}"]).size
-    @unique_tags_count = get_unique_tags_of_user
+
     tag_ids = current_user.todos.find_by_sql([
                                                "SELECT DISTINCT tags.id as id "+
                                                  "FROM tags, taggings, todos "+
