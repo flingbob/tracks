@@ -1,10 +1,14 @@
 class Stats
   SECONDS_PER_DAY = 86400
 
-  attr_reader :current_user
+  attr_reader  :current_user, :me, :chart_width, :chart_height, :pie_width, :pie_height, :today, :cut_off_year, :cut_off_year_plus3, :cut_off_month, :cut_off_3months, :first_action, :tags_count, :unique_tags_count, :hidden_contexts, :completed_actions, :actions_avg_ttc, :actions_max_ttc, :actions_min_ttc, :actions_min_ttc_sec, :actions_min_ttc_sec, :sum_actions_done_last30days, :sum_actions_created_last30days, :sum_actions_done_last12months, :sum_actions_created_last12months, :actions_per_context, :running_actions_per_context, :projects_and_actions, :projects_and_actions_last30days, :projects_and_runtime_sql, :projects_and_runtime, :tags_for_cloud, :tags_min, :tags_divisor, :tags_for_cloud_90days, :tags_min_90days, :tags_divisor_90days
 
   def initialize(current_user)
-    @current_user = user
+    @current_user = current_user
+  end
+
+  def t(*args)
+    I18n.t(*args)
   end
 
   def difference_in_days(date1, date2)
