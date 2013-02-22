@@ -6,7 +6,7 @@ gem 'rails', '~>3.2'
 # This will prevent a native build of the driver. Building native drivers is not 
 # always possible on all hosters
 gem "sqlite3"
-gem "mysql2"
+#gem "mysql2"
 
 gem "RedCloth"
 gem "formatize"

@@ -23,3 +23,5 @@ db/schema.rb
 nbproject
 rerun.txt
 tags
+tracks_development.sqlite3.db
+tracks_test.sqlite3.db

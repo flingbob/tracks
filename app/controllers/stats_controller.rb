@@ -1,6 +1,6 @@
 class StatsController < ApplicationController
 
-  SECONDS_PER_DAY = 86400;
+  SECONDS_PER_DAY = 86400
 
   helper :todos, :projects, :recurring_todos
   append_before_filter :init
