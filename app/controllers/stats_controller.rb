@@ -26,8 +26,27 @@ class StatsController < ApplicationController
     @page_title = t('stats.index_title')
 
     @first_action = current_user.todos.reorder("created_at ASC").first
-    @tags_count = get_total_number_of_tags_of_user
-    @unique_tags_count = get_unique_tags_of_user.size
+    @tags_count = current_user.todos.find_by_sql([
+                                                   "SELECT tags.id as id "+
+                                                     "FROM tags, taggings, todos "+
+                                                     "WHERE tags.id = taggings.tag_id " +
+                                                     "AND taggings.taggable_id = todos.id " +
+                                                     "AND todos.user_id = #{current_user.id}"]).size
+    @unique_tags_count = get_unique_tags_of_user
+    tag_ids = current_user.todos.find_by_sql([
+                                               "SELECT DISTINCT tags.id as id "+
+                                                 "FROM tags, taggings, todos "+
+                                                 "WHERE tags.id = taggings.tag_id " +
+                                                 "AND taggings.taggable_id = todos.id "+
+                                                 "AND todos.user_id = #{current_user.id}"])
+    tags_ids_s = tag_ids.map(&:id).sort.join(",")
+    if tags_ids_s.blank?
+      rv = {}   # return empty hash for .size to work
+    else
+      rv =  Tag.where("id in (#{tags_ids_s})")
+    end
+    @unique_tags_count = rv.size
+
     @hidden_contexts = current_user.contexts.hidden
 
     #get_stats_actions
