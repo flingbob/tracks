@@ -3,9 +3,26 @@ class StatsController < ApplicationController
   SECONDS_PER_DAY = 86400
 
   helper :todos, :projects, :recurring_todos
-  append_before_filter :init
+  append_before_filter :init, :except => :index
 
   def index
+    @me = self # for meta programming
+
+    # default chart dimensions
+    @chart_width=460
+    @chart_height=250
+    @pie_width=@chart_width
+    @pie_height=325
+
+    # get the current date wih time set to 0:0
+    @today = Time.zone.now.utc.beginning_of_day
+
+    # define cut_off date and discard the time for a month, 3 months and a year
+    @cut_off_year = 12.months.ago.beginning_of_day
+    @cut_off_year_plus3 = 15.months.ago.beginning_of_day
+    @cut_off_month = 1.month.ago.beginning_of_day
+    @cut_off_3months = 3.months.ago.beginning_of_day
+
     @page_title = t('stats.index_title')
 
     @first_action = current_user.todos.reorder("created_at ASC").first
